@@ -9,21 +9,21 @@
     <title>Five Day Forecast</title>
 </head>
 <body>
-    <header class="header col-12"><h1>Weather Dashboard</h1></header>
+    <header class="header col-12 bg-primary text text-white"><h1>Weather Dashboard</h1></header>
     
-    <div class="container citySearch">
-        <div class="row">
-          <div class="col-4"><h3>City Search</h3></div>
-          <div class="input-group mb-3 col-4">
-            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <div class="container text-center m-0">
+      <div class="row">
+        <div class="col-4">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control userInput" placeholder="Enter location" aria-label="Enter-location" aria-describedby="basic-addon2">
             <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">@example.com</span>
+              <button class="input-group-text" id="basic-addon2">Submit</button>
             </div>
           </div>
-          
-          
         </div>
+        <div class="diplay-weather col-8"></div>
       </div>
+    </div>
     
 </body>
 </html>
