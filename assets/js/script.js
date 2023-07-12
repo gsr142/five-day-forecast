@@ -26,8 +26,12 @@ $(document).ready(function() {
             return response.json();
         })
         .then(function(data){
+            console.log(data[0].lon)
+            console.log(data[0].lat)
             console.log(data)
-        })
+        });
+    
+    
    }
 
 
