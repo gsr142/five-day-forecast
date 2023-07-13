@@ -12,7 +12,7 @@ $(document).ready(function() {
 
    function addLonLat(data) {
     //api call for current weather
-    var weatherCall = "https:api.openweathermap.org/data/2.5/weather?lat="+data[0].lat+"&lon="+data[0].lon+"&appid="+apiKey+"&units=imperial";
+    var weatherCall = "https://api.openweathermap.org/data/2.5/weather?lat="+data[0].lat+"&lon="+data[0].lon+"&appid="+apiKey+"&units=imperial";
     //calls weather API using fetch with longitude and latitude returned from geocode API
     fetch(weatherCall)
         .then(function(response){
@@ -37,7 +37,7 @@ $(document).ready(function() {
             
         })
     //api call for forecast
-    var forecastCall = "https:api.openweathermap.org/data/2.5/forecast?lat="+data[0].lat+"&lon="+data[0].lon+"&appid="+apiKey+"&units=imperial"
+    var forecastCall = "https://api.openweathermap.org/data/2.5/forecast?lat="+data[0].lat+"&lon="+data[0].lon+"&appid="+apiKey+"&units=imperial"
     fetch(forecastCall)
         .then(function(response){
             return response.json();
