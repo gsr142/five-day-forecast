@@ -64,7 +64,7 @@ $(document).ready(function() {
    function getCity(){
     var userInput = $('.userInput').val();
     userInput = userInput.replace(/ /g, '_')
-    var geoCode = "http://api.openweathermap.org/geo/1.0/direct?q="+userInput+"&limit=10&appid="+apiKey;
+    var geoCode = "https://api.openweathermap.org/geo/1.0/direct?q="+userInput+"&limit=10&appid="+apiKey;
     
     fetch(geoCode)
         .then(function(response) {
