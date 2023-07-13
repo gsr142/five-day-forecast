@@ -51,7 +51,7 @@ $(document).ready(function() {
                     forecastRow.addClass("row")
                     var forecastCard = $("<div>");
                     forecastCard.addClass("col-3");
-                    forecastCard.text("Temp: " + data.list[i].main.temp +"\nHumidity: " + data.list[i].main.humidity + "%\n Wind: " + data.list[i].wind.speed + "mph");
+                    forecastCard.html(data.list[i].dt_txt.split(' ')[0]+"\nTemp: " + data.list[i].main.temp +"\nHumidity: " + data.list[i].main.humidity + "%\n Wind: " + data.list[i].wind.speed + "mph");
                     forecastRow.append(forecastCard)
                     weatherCurrent.append(forecastRow);
                 }
