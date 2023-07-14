@@ -10,7 +10,7 @@ $(document).ready(function() {
     $('.historyButton').on('click', function(){
         var buttonText = $(this).text();
         $('.userInput').val(buttonText)
-        console.log(buttonText)
+        
     })
 
     //triggers the api calls that will return the current weather and forecast data
@@ -29,8 +29,15 @@ $(document).ready(function() {
             return response.json();
         })
         .then(function(data){
-            //console.log(data)
-            //returns and displays current temp
+            console.log(data)
+            
+            //returns and displays current temp and conditions
+            var iconCode = data.weather[0].icon
+            var iconUrl = iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+            var iconElement = $('<img>');
+            iconElement.attr('src', iconUrl);
+            weatherCurrent.append(iconElement)
+
             var currentTemp = $("<h4>");
             $(currentTemp).text("Temperature: " + data.main.temp + "F");
             weatherCurrent.append(currentTemp);
@@ -56,7 +63,7 @@ $(document).ready(function() {
             //This section dynamically adds forecast info to a forecast card, and appends the cards to the page.
             for (i = 0; i < data.list.length; i++){
                 if (data.list[i].dt_txt.endsWith("15:00:00")){
-                    console.log(data.list[i].main.temp);
+                    
                     var forecastRow = $("<div>")
                     forecastRow.addClass("row")
                     var forecastCard = $("<div>");
@@ -70,6 +77,12 @@ $(document).ready(function() {
                     temp.addClass('col-12')
                     temp.text("Temperature: " + data.list[i].main.temp)
                     forecastCard.append(temp)
+                    //console.log(data.list[i].weather[0].icon)
+                    var iconCode = data.list[i].weather[0].icon
+                    var iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png"
+                    var iconElement = $('<img>');
+                    iconElement.attr('src', iconUrl);
+                    forecastCard.append(iconElement);
 
                     var humidity = $('<div>')
                     humidity.addClass('col-12')
@@ -80,6 +93,8 @@ $(document).ready(function() {
                     wind.addClass('col-12 mb-2')
                     wind.text("Wind: " + data.list[i].wind.speed + "mph")
                     forecastCard.append(wind)
+
+
                     
                     forecastRow.append(forecastCard)
                     weatherCurrent.append(forecastRow);
