@@ -4,10 +4,20 @@ $(document).ready(function() {
     
     var apiKey = "d9603dd48b308569c2d9d4504c34811f"
     
+    
+    createButtons();
+    //puts the history button text into the search bar so the user can recheck info.
+    $('.historyButton').on('click', function(){
+        var buttonText = $(this).text();
+        $('.userInput').val(buttonText)
+        console.log(buttonText)
+    })
 
-   $(".submit").click(function(){
+    //triggers the api calls that will return the current weather and forecast data
+   $(".submit").on('click', function(){
         $('.display-weather').empty();
         getCity();
+        
    });
 
    function addLonLat(data) {
@@ -43,15 +53,34 @@ $(document).ready(function() {
             return response.json();
         })
         .then(function(data){
-            console.log(data.list)
+            //This section dynamically adds forecast info to a forecast card, and appends the cards to the page.
             for (i = 0; i < data.list.length; i++){
                 if (data.list[i].dt_txt.endsWith("15:00:00")){
                     console.log(data.list[i].main.temp);
                     var forecastRow = $("<div>")
                     forecastRow.addClass("row")
                     var forecastCard = $("<div>");
-                    forecastCard.addClass("col-3");
-                    forecastCard.html(data.list[i].dt_txt.split(' ')[0]+"\nTemp: " + data.list[i].main.temp +"\nHumidity: " + data.list[i].main.humidity + "%\n Wind: " + data.list[i].wind.speed + "mph");
+                    forecastCard.addClass("col-12 bg-info mb-1 text-light");
+                    var date = $('<div>')
+                    date.addClass('col-12')
+                    date.text(data.list[i].dt_txt.split(' ')[0])
+                    forecastCard.append(date)
+
+                    var temp = $('<div>')
+                    temp.addClass('col-12')
+                    temp.text("Temperature: " + data.list[i].main.temp)
+                    forecastCard.append(temp)
+
+                    var humidity = $('<div>')
+                    humidity.addClass('col-12')
+                    humidity.text("Humidity: " + data.list[i].main.humidity + "%")
+                    forecastCard.append(humidity)
+
+                    var wind = $('<div>')
+                    wind.addClass('col-12 mb-2')
+                    wind.text("Wind: " + data.list[i].wind.speed + "mph")
+                    forecastCard.append(wind)
+                    
                     forecastRow.append(forecastCard)
                     weatherCurrent.append(forecastRow);
                 }
@@ -71,9 +100,7 @@ $(document).ready(function() {
             return response.json();
         })
         .then(function(data){
-            // console.log(data[0].lon)
-            // console.log(data[0].lat)
-            //console.log(data)
+           
             var displayCurrent = $("<h3>");
             //displays headline showing the Location selected by the user
             $(displayCurrent).text("Current weather for " + data[0].name);
@@ -81,8 +108,34 @@ $(document).ready(function() {
             //calls addLonLat
             addLonLat(data)
         });
+
+    var searchHistory = localStorage.getItem('searchHistory');
+    var itemsArray = searchHistory ? JSON.parse(searchHistory) : [];
+
+    itemsArray.push(userInput);
+
+    localStorage.setItem('searchHistory', JSON.stringify(itemsArray));
+    console.log(localStorage)
+    createButtons()
+   }
+   //creates buttons from the search history stored in local storage, and adds them to the page. Sorts by most recent, and only produces a max of 5 buttons
+   function createButtons(){
+    var buttonContainer = $('#buttonContainer');
+    buttonContainer.empty();
+    var searchHistory = localStorage.getItem('searchHistory');
+    var itemsArray = searchHistory ? JSON.parse(searchHistory) : [];
     
-    
+    for (let i = itemsArray.length-1; i >= itemsArray.length-5; i--){
+        var item = itemsArray[i].replace("_", " ");
+        if (itemsArray[i].length > 1){
+            var button = $('<button>');
+            button.addClass('col-12 m-1 historyButton');
+            button.text(item);
+            buttonContainer.append(button);
+        }
+
+        
+    }
    }
 
 
