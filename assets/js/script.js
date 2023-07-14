@@ -29,7 +29,7 @@ $(document).ready(function() {
             return response.json();
         })
         .then(function(data){
-            console.log(data)
+            
             
             //returns and displays current temp and conditions
             var iconCode = data.weather[0].icon
@@ -130,19 +130,22 @@ $(document).ready(function() {
     itemsArray.push(userInput);
 
     localStorage.setItem('searchHistory', JSON.stringify(itemsArray));
-    console.log(localStorage)
+    
     createButtons()
    }
    //creates buttons from the search history stored in local storage, and adds them to the page. Sorts by most recent, and only produces a max of 5 buttons
    function createButtons(){
+    var searchHistory = localStorage.getItem('searchHistory');
+    
     var buttonContainer = $('#buttonContainer');
     buttonContainer.empty();
-    var searchHistory = localStorage.getItem('searchHistory');
+    
     var itemsArray = searchHistory ? JSON.parse(searchHistory) : [];
     
     for (let i = itemsArray.length-1; i >= itemsArray.length-5; i--){
-        var item = itemsArray[i].replace("_", " ");
-        if (itemsArray[i].length > 1){
+        var item = itemsArray[i];
+        
+        if (item){
             var button = $('<button>');
             button.addClass('col-12 m-1 historyButton');
             button.text(item);
