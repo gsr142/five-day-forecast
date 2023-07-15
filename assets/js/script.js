@@ -8,15 +8,41 @@ $(document).ready(function() {
     createButtons();
     //puts the history button text into the search bar so the user can recheck info.
     $('.historyButton').on('click', function(){
+    
         var buttonText = $(this).text();
-        $('.userInput').val(buttonText)
         
-    })
+        var geoCode = "https://api.openweathermap.org/geo/1.0/direct?q="+buttonText+"&limit=10&appid="+apiKey;
+    
+        fetch(geoCode)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data){
+           
+            var displayCurrent = $("<h3>");
+            //displays headline showing the Location selected by the user
+            $(displayCurrent).text("Current weather for " + data[0].name);
+            weatherCurrent.append(displayCurrent);
+            //calls addLonLat
+            addLonLat(data)
+        });
+
+    var searchHistory = localStorage.getItem('searchHistory');
+    var itemsArray = searchHistory ? JSON.parse(searchHistory) : [];
+
+    itemsArray.push(buttonText);
+
+    localStorage.setItem('searchHistory', JSON.stringify(itemsArray));
+    
+    createButtons()
+   });
 
     //triggers the api calls that will return the current weather and forecast data
    $(".submit").on('click', function(){
+        
         $('.display-weather').empty();
         getCity();
+        
         
    });
 
